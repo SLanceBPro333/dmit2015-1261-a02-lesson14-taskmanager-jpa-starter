@@ -1,5 +1,6 @@
 package dmit2015.config;
 
+import dmit2015.model.Task;
 import dmit2015.service.TaskJpaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
@@ -49,11 +50,12 @@ public class TaskInitializer {
              */
 
             try {
-                var faker = new Faker();
 
-                for(int count = 1; count <= 10; count++) {
+                var faker= new Faker();
 
-                    Task currentTask = dmit2015.model.Task.of(faker);
+                for(int count = 1; count <=10; count++){
+
+                    Task currentTask= dmit2015.model.Task.of(faker);
                     taskJpaService.createTask(currentTask);
                 }
 
@@ -62,7 +64,7 @@ public class TaskInitializer {
                 logger.warning(ex.getMessage());
             }
 
-            logger.info("Created " + taskJpaService..getAll() + " records.");
+            logger.info("Created " + taskJpaService.getAllTasks().size() + " records.");
         }
     }
 }
