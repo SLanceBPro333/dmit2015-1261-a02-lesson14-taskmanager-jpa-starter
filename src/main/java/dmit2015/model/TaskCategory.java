@@ -28,7 +28,7 @@ public class TaskCategory implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "catgory")
+    @OneToMany(mappedBy = "category")
     private List<Task> tasks = new ArrayList<>();
 
     public TaskCategory() {
