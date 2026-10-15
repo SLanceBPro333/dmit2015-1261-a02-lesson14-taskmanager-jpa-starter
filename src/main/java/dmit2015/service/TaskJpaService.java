@@ -1,5 +1,6 @@
 package dmit2015.service;
 
+import dmit2015.model.TaskCategory;
 import dmit2015.model.Task;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
@@ -82,6 +83,12 @@ public class TaskJpaService implements TaskService {
         } else {
             throw new RuntimeException("Could not find Task with id: " + id);
         }
+    }
+
+    @Transactional
+    public TaskCategory createCategory (TaskCategory category) {
+        entityManager.persist(category);
+        return category;
     }
 
 }
