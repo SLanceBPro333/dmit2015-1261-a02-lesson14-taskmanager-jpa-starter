@@ -1,6 +1,7 @@
 package dmit2015.config;
 
 import dmit2015.model.Task;
+import dmit2015.model.TaskCategory;
 import dmit2015.service.TaskJpaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
@@ -51,11 +52,36 @@ public class TaskInitializer {
 
             try {
 
+                //step 1: create categories
+                TaskCategory school = new TaskCategory("School");
+
+                TaskCategory work = new TaskCategory("Work");
+
+                TaskCategory personal = new TaskCategory("Personal");
+
+                TaskCategory urgent = new TaskCategory("Urgent");
+
+                //step 2: Save categories...
+                taskJpaService.createCategory(school);
+                taskJpaService.createCategory(work);
+                taskJpaService.createCategory(personal);
+                taskJpaService.createCategory(urgent);
+
+                //step 3: Store these categories in an array.
+                TaskCategory[] categories = {school, work, personal, urgent};
+
+                //step 4: Generate 10 Sample Tasks
+
                 var faker= new Faker();
 
                 for(int count = 1; count <=10; count++){
 
-                    Task currentTask= dmit2015.model.Task.of(faker);
+                    Task currentTask= Task.of(faker);
+                    //Assign a category to each task.
+                    int categoryIndex = (count-1)% categories.length;
+                    currentTask.setCategory(categories[categoryIndex]);
+
+                    //Save the task...
                     taskJpaService.createTask(currentTask);
                 }
 

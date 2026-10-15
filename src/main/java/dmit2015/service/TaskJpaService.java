@@ -46,8 +46,11 @@ public class TaskJpaService implements TaskService {
 
     @Override
     public List<Task> getAllTasks() {
-        return entityManager.createQuery("SELECT o FROM Task o ", Task.class)
-                .getResultList();
+
+        return entityManager.createQuery("""
+                SELECT t FROM Task t
+                LEFT JOIN FETCH t.category
+                ORDER BY t.description""", Task.class).getResultList();
     }
 
     @Override
@@ -89,6 +92,27 @@ public class TaskJpaService implements TaskService {
     public TaskCategory createCategory (TaskCategory category) {
         entityManager.persist(category);
         return category;
+    }
+
+    @Override
+    public List<Task> findTasksByCategoryName(String categoryName) {
+
+        return entityManager.createQuery("""
+        SELECT t FROM Task t
+        WHERE t.category.name = :categoryName
+        ORDER BY t.description""", Task.class).setParameter("categoryName", categoryName).getResultList();
+    }
+
+    //JPQL Method
+    @Override
+
+    public List<Task> findAllTasksWithCategory(){
+        return entityManager.createQuery("""
+        SELECT t FROM Task t
+        JOIN FETCH t.category
+        ORDER BY t.description""", Task.class).getResultList();
+
+
     }
 
 }
