@@ -30,7 +30,7 @@ public class TaskCrudView implements Serializable {
     }
 
     @Inject
-    @Named("jakartaPresistenceTaskService")
+    @Named("jakartaPersistenceTaskService")
     private TaskService taskService;
 
     /**
